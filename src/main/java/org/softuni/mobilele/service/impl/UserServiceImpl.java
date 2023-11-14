@@ -5,6 +5,7 @@ import org.softuni.mobilele.model.dto.UserRegistrationDTO;
 import org.softuni.mobilele.model.entity.UserEntity;
 import org.softuni.mobilele.repository.UserRepository;
 import org.softuni.mobilele.service.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class UserServiceImpl implements UserService {
                 .setFirstName(userRegistrationDTO.firstName())
                 .setLastName(userRegistrationDTO.lastName())
                 .setEmail(userRegistrationDTO.email())
-                .setPassword(userRegistrationDTO.password());
+                .setPassword(passwordEncoder.encode(userRegistrationDTO.password()));
     }
 
 
