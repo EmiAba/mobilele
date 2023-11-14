@@ -1,67 +1,83 @@
 package org.softuni.mobilele.model.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import org.softuni.mobilele.model.entity.BaseEntity;
 
 @Entity
-@Table(name="users")
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name = "users")
+public class UserEntity extends BaseEntity {
 
+    @Column(unique = true)
     private String email;
+
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "users_roles",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    private List<UserRoleEntity> roles = new ArrayList<>();
+
     private String password;
 
     private String firstName;
+
     private String lastName;
 
     private boolean active;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public UserEntity setEmail(String email) {
         this.email = email;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public UserEntity setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public UserEntity setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public UserEntity setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     public boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public UserEntity setActive(boolean active) {
         this.active = active;
+        return this;
     }
+
+//    public List<UserRoleEntity> getRoles() {
+//        return roles;
+//    }
+//
+//    public UserEntity setRoles(List<UserRoleEntity> roles) {
+//        this.roles = roles;
+//        return this;
+//    }
 }

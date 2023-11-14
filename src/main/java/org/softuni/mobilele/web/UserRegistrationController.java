@@ -14,9 +14,9 @@ public class UserRegistrationController {
 
   private final UserService userService;
 
-    public UserRegistrationController(UserService userService, UserService userService1) {
+    public UserRegistrationController(UserService userService) {
 
-        this.userService = userService1;
+        this.userService = userService;
     }
 
 
@@ -27,7 +27,12 @@ public class UserRegistrationController {
 
     @PostMapping("/register")
     public String register(UserRegistrationDTO userRegistrationDTO) {
+        //implement registration na user
+
         userService.registerUser(userRegistrationDTO);
+
+
+
 
         return "redirect:/";
 
