@@ -1,10 +1,12 @@
 package org.softuni.mobilele.service.impl;
 
+import org.softuni.mobilele.model.dto.UserLoginDto;
 import org.softuni.mobilele.model.dto.UserRegistrationDTO;
 
 import org.softuni.mobilele.model.entity.UserEntity;
 import org.softuni.mobilele.repository.UserRepository;
 import org.softuni.mobilele.service.UserService;
+import org.softuni.mobilele.util.CurrentUser;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +14,51 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CurrentUser currentUser;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder passwordEncoder,
+                           CurrentUser currentUser) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.currentUser = currentUser;
     }
 
     @Override
     public void registerUser(UserRegistrationDTO userRegistrationDTO) {
         userRepository.save(map(userRegistrationDTO));
+
+    }
+
+    @Override
+    public boolean loginUser(UserLoginDto userLoginDto) {
+
+        var userEntity = userRepository
+                .findByEmail(userLoginDto.email())
+                .orElse(null);
+
+        boolean loginSuccess = false;
+
+        String rawPassword = userLoginDto.password();
+        String encodedPassword = userEntity.getPassword();
+
+        if (userEntity != null) {
+
+            loginSuccess = (encodedPassword != null) &&
+                    passwordEncoder.matches(rawPassword, encodedPassword);
+
+            if (loginSuccess) {
+                currentUser
+                        .setFirstName(userEntity.getFirstName())
+                        .setLastName(userEntity.getLastName());
+
+
+            }
+        }
+        return loginSuccess;
+
 
     }
 
@@ -36,3 +72,4 @@ public class UserServiceImpl implements UserService {
 
 
 }
+
