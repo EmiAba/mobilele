@@ -41,20 +41,24 @@ public class UserServiceImpl implements UserService {
 
         boolean loginSuccess = false;
 
-        String rawPassword = userLoginDto.password();
-        String encodedPassword = userEntity.getPassword();
+
 
         if (userEntity != null) {
+            String rawPassword = userLoginDto.password();
+            String encodedPassword = userEntity.getPassword();
+
 
             loginSuccess = (encodedPassword != null) &&
                     passwordEncoder.matches(rawPassword, encodedPassword);
 
             if (loginSuccess) {
                 currentUser
+                        .setLogged(true)
                         .setFirstName(userEntity.getFirstName())
                         .setLastName(userEntity.getLastName());
 
-
+            } else{
+                currentUser.logout();
             }
         }
         return loginSuccess;

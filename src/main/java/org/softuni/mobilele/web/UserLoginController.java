@@ -21,10 +21,10 @@ public class UserLoginController {
         return "auth-login";
     }
 
-    @PostMapping("usres/login")
+    @PostMapping("/users/login")
     public String login(UserLoginDto userLoginDto){
          boolean loginSuccessful=(userService.loginUser(userLoginDto));
 
-         return loginSuccessful ? "/" :"auth-login";
+         return loginSuccessful ? "index" :"auth-login";
     }
 }
