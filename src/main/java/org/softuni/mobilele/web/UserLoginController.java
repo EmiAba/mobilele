@@ -16,15 +16,23 @@ public class UserLoginController {
 
 
     @GetMapping("/users/login")
-    public String login(){
+    public String login() {
 
         return "auth-login";
     }
 
-    @PostMapping("/users/login")
-    public String login(UserLoginDto userLoginDto){
-         boolean loginSuccessful=(userService.loginUser(userLoginDto));
 
-         return loginSuccessful ? "index" :"auth-login";
+    @GetMapping("/users/logout")
+    public String logout() {
+        userService.logoutUser();
+        return "index";
+    }
+
+
+    @PostMapping("/users/login")
+    public String login(UserLoginDto userLoginDto) {
+        boolean loginSuccessful = (userService.loginUser(userLoginDto));
+
+        return loginSuccessful ? "index" : "auth-login";
     }
 }

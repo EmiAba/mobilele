@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
         boolean loginSuccess = false;
 
 
-
         if (userEntity != null) {
             String rawPassword = userLoginDto.password();
             String encodedPassword = userEntity.getPassword();
@@ -57,12 +56,18 @@ public class UserServiceImpl implements UserService {
                         .setFirstName(userEntity.getFirstName())
                         .setLastName(userEntity.getLastName());
 
-            } else{
+            } else {
                 currentUser.logout();
             }
         }
         return loginSuccess;
 
+
+    }
+
+
+    public void logoutUser() {
+        currentUser.logout();
 
     }
 
