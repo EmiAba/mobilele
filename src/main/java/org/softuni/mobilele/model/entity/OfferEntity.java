@@ -1,14 +1,19 @@
 package org.softuni.mobilele.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.softuni.mobilele.model.enums.EngineEnum;
 import org.softuni.mobilele.model.enums.TransmissionEnum;
 
 import java.math.BigDecimal;
+import java.sql.Types;
+import java.util.UUID;
 
 @Entity
 @Table(name = "offers")
 public class OfferEntity extends BaseEntity {
+    @JdbcTypeCode(Types.VARCHAR)
+    private UUID uuid;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -96,5 +101,15 @@ public class OfferEntity extends BaseEntity {
     public OfferEntity setModel(ModelEntity model) {
         this.model = model;
         return this;
+    }
+
+
+    public UUID uuid() {
+        return uuid;
+    }
+
+    public OfferEntity setUuid(UUID uuid) {
+        this.uuid = uuid;
+        return  this;
     }
 }
