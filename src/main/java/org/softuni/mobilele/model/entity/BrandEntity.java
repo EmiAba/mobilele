@@ -11,8 +11,6 @@ public class BrandEntity extends BaseEntity {
     private String brand;
 
 
-
-
     public BrandEntity() {
     }
 

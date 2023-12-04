@@ -1,22 +1,25 @@
 package org.softuni.mobilele.web;
 
 import org.softuni.mobilele.model.dto.CreateOfferDto;
+import org.softuni.mobilele.model.enums.EngineEnum;
+import org.softuni.mobilele.service.BrandService;
 import org.softuni.mobilele.service.OfferService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @Controller
 @RequestMapping("/offers")
 public class OfferController {
-    private OfferService offerService;
+    private final OfferService offerService;
 
-    public OfferController(OfferService offerService) {
+    private final BrandService brandService;
+
+    public OfferController(OfferService offerService, BrandService brandService) {
         this.offerService = offerService;
+        this.brandService = brandService;
     }
 
 
@@ -26,31 +29,35 @@ public class OfferController {
         return "offers";
     }
 
+    @ModelAttribute("engines")
+    public EngineEnum[] engines() {
+        return EngineEnum.values();
+    }
+
+
     @GetMapping("/add")
-    public String add() {
+    public String add(Model model) {
+        model.addAttribute("brands", brandService.getAllBrands());
+
 
         return "offer-add";
     }
 
 
     @PostMapping()
-    public String add(CreateOfferDto createOfferDto){
-                offerService.createOffer(createOfferDto);
+    public String add(CreateOfferDto createOfferDto) {
+
+        offerService.createOffer(createOfferDto);
 
         return "index";
 
     }
 
 
-
     @GetMapping("/{uuid}/details")
     public String details(@PathVariable("uuid") UUID uuid) {
         return "details";
     }
-
-
-
-
 
 
 }
