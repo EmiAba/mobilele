@@ -17,9 +17,7 @@ public record CreateOfferDto(
 
         Integer year,
 
-
         Long brandId,
-
 
 
         String sellerUsername
