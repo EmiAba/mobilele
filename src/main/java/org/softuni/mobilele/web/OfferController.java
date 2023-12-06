@@ -28,10 +28,10 @@ public class OfferController {
         return "offers";
     }
 
-//    @ModelAttribute("engines")
-//    public EngineEnum[] engines() {
-//        return EngineEnum.values();
-//    }
+    @ModelAttribute("engines")
+   public EngineEnum[] engines() {
+        return EngineEnum.values();
+   }
 
 
     @GetMapping("/add")
